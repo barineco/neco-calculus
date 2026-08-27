@@ -1,0 +1,24 @@
+[package]
+name = "neco-jet"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "bounded exact derivative sequences for polynomial calculus"
+documentation = "https://docs.rs/neco-jet"
+readme = "README.md"
+keywords = ["calculus", "exact-arithmetic", "algebra"]
+categories = ["mathematics", "no-std"]
+include = ["Cargo.toml", "src/lib.rs", "tests/*.rs", "README.md", "README-ja.md", "LICENSE"]
+
+[features]
+default = ["std"]
+std = ["neco-polynomial/std", "neco-algnum/std"]
+
+[dependencies]
+neco-polynomial = { path = "../neco-polynomial", version = "0.1.0", default-features = false }
+neco-algnum = { version = "=0.1.1", default-features = false }
+
+[dev-dependencies]
+neco-bigint = { version = "=0.1.1", default-features = false }

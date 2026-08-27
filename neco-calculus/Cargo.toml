@@ -1,0 +1,26 @@
+[package]
+name = "neco-calculus"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "exact calculus facade with verified evaluation and refinement results"
+documentation = "https://docs.rs/neco-calculus"
+readme = "README.md"
+keywords = ["calculus", "exact-arithmetic", "algebra"]
+categories = ["mathematics", "no-std"]
+include = ["Cargo.toml", "src/lib.rs", "tests/*.rs", "README.md", "README-ja.md", "LICENSE"]
+
+[features]
+default = ["std"]
+std = ["neco-polynomial/std", "neco-rational/std", "neco-jet/std", "neco-root/std", "neco-expr/std", "neco-bigint/std", "neco-algnum/std"]
+
+[dependencies]
+neco-polynomial = { path = "../neco-polynomial", version = "0.1.0", default-features = false }
+neco-rational = { path = "../neco-rational", version = "0.1.0", default-features = false }
+neco-jet = { path = "../neco-jet", version = "0.1.0", default-features = false }
+neco-root = { path = "../neco-root", version = "0.1.0", default-features = false }
+neco-expr = { version = "=0.1.1", default-features = false }
+neco-bigint = { version = "=0.1.1", default-features = false }
+neco-algnum = { version = "=0.1.1", default-features = false }

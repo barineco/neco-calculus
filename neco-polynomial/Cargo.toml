@@ -1,0 +1,21 @@
+[package]
+name = "neco-polynomial"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "canonical exact polynomials with formal derivatives and interval evaluation"
+documentation = "https://docs.rs/neco-polynomial"
+readme = "README.md"
+keywords = ["calculus", "exact-arithmetic", "algebra"]
+categories = ["mathematics", "no-std"]
+include = ["Cargo.toml", "src/lib.rs", "tests/*.rs", "README.md", "README-ja.md", "LICENSE"]
+
+[features]
+default = ["std"]
+std = ["neco-bigint/std", "neco-algnum/std"]
+
+[dependencies]
+neco-bigint = { version = "=0.1.1", default-features = false }
+neco-algnum = { version = "=0.1.1", default-features = false }
