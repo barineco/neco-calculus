@@ -8,35 +8,35 @@
 
 **Canonical Polynomial Construction**
 
-Construction produces a unique coefficient representation by removing trailing zero coefficients. Every polynomial retains at least one coefficient.
+Constructing a polynomial removes trailing zero coefficients, which makes the coefficient representation unique. Every polynomial has at least one coefficient.
 
 **Exact and Interval Evaluation**
 
-Exact evaluation uses Horner form. Interval evaluation returns an enclosure containing every polynomial value over the supplied dyadic interval.
+Exact evaluation uses Horner's method. The result of interval evaluation is an interval containing every value the polynomial takes over the supplied interval of dyadic rationals (rationals whose denominator is a power of two).
 
-**Typed Failure Provenance**
+**Typed Failures**
 
-Construction, arithmetic, interval, and resource failures remain distinct. Algebraic failures preserve the payload supplied by their defining crate.
+Construction, arithmetic, and interval failures, and failures from exceeding resource limits, are returned as distinct variants. Algebraic failures keep the payload returned by the crate that defines the operation.
 
 ## Specifications and Constraints
 
 | Operation | Constraint | Result at the Limit |
 | --- | --- | --- |
-| **Construction** | Coefficients $\le 256$ | Returns `PolynomialFailure::Resource` for a larger sequence |
+| **Construction** | Coefficients $\le 256$ | Returns `PolynomialFailure::Resource` for a larger coefficient sequence |
 | **Differentiation** | Derivative order $\le 64$ | Returns `PolynomialFailure::Resource` for a larger order |
 | **Interval Evaluation** | Precision $\le 256$ bits | Returns `PolynomialFailure::Resource` for a larger precision |
-| **Canonicalization** | A coefficient sequence contains a canonical nonempty value | Removes trailing zeros and represents zero with one coefficient |
+| **Canonicalization** | The coefficient sequence is nonempty | Returns `PolynomialFailure::EmptyCoefficients` for an empty sequence. Removes trailing zero coefficients and represents the zero polynomial with one coefficient |
 
 ## Runtime Configuration
 
-The default configuration integrates with the standard library.
+The default configuration uses the standard library.
 
 ```toml
 [dependencies]
 neco-polynomial = "0.1"
 ```
 
-Environments without the standard library use dynamic allocation alone. Polynomial and failure semantics stay the same.
+Disabling the default `std` feature leaves dynamic memory allocation as the only runtime requirement, so the crate can be used in environments without the standard library. Polynomial and failure semantics are the same in both configurations.
 
 ```toml
 [dependencies]
@@ -50,4 +50,4 @@ neco-polynomial = { version = "0.1", default-features = false }
 
 ## License
 
-MIT License (See the repository [LICENSE](../LICENSE) for details).
+MIT License. See the repository [LICENSE](../LICENSE) for details.

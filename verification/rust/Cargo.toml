@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/calculus-observation-types",
+    "crates/calculus-observation-producer",
+]
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.82"
+license = "MIT"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"

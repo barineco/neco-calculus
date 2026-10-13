@@ -1,0 +1,18 @@
+[package]
+name = "calculus-observation-producer"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+calculus-observation-types = { path = "../calculus-observation-types" }
+neco-algnum = { path = "../../../../../../neco-algebra/neco-algebra-main/neco-algnum", version = "=0.1.2" }
+neco-bigint = { path = "../../../../../../neco-algebra/neco-algebra-main/neco-bigint", version = "=0.1.2" }
+neco-calculus = { path = "../../../../neco-calculus" }
+neco-expr = { path = "../../../../../../neco-algebra/neco-algebra-main/neco-expr", version = "=0.2.0" }
+neco-root = { path = "../../../../neco-root" }
+serde_json = "1.0"

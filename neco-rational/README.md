@@ -2,45 +2,45 @@
 
 [日本語](README-ja.md)
 
-`neco-rational` provides exact rational functions formed from canonical polynomials, with validated point and interval domains.
+`neco-rational` is a crate that provides exact rational functions formed from canonical polynomials. For both points and intervals, evaluation validates membership in the domain.
 
 ## Features
 
 **Validated Rational Functions**
 
-Construction stores canonical numerator and denominator polynomials and establishes a nonzero denominator polynomial.
+Construction keeps the canonical numerator and denominator polynomials and confirms that the denominator polynomial is nonzero.
 
 **Exact Point Evaluation**
 
-Point evaluation returns an exact quotient for values in the function domain.
+For values in the domain of the function, point evaluation gives an exact quotient.
 
 **Validated Interval Evaluation**
 
-Interval evaluation returns a dyadic enclosure containing every defined quotient over the input interval.
+The result of interval evaluation is an interval of dyadic rationals (rationals whose denominator is a power of two) that contains every quotient defined over the input interval.
 
-**Typed Failure Provenance**
+**Typed Failures**
 
-Domain, polynomial, algebraic, and resource failures remain distinguishable through `RationalFailure`.
+The variant of `RationalFailure` tells whether a failure arose in the domain, the polynomial, or the algebraic arithmetic, or came from exceeding a resource limit.
 
 ## Invariants and Validation Rules
 
 | Target | Validation Rule | Result |
 | --- | --- | --- |
-| **Construction** | Denominator polynomial has a nonzero canonical value | Returns `RationalFailure` for the zero polynomial |
-| **Point Evaluation** | Denominator value has a nonzero value | Returns a typed domain failure at a pole |
-| **Interval Evaluation** | Denominator enclosure excludes zero | Returns a typed domain failure for an interval containing a pole |
-| **Resources** | Polynomial coefficient and precision limits hold | Preserves the dependency resource failure |
+| **Construction** | The denominator polynomial is a canonical nonzero polynomial | Returns `RationalFailure` when the denominator is the zero polynomial |
+| **Point Evaluation** | The denominator value is nonzero | Returns a typed failure for an undefined point at a pole |
+| **Interval Evaluation** | The denominator enclosure excludes zero | Returns a typed failure representing a domain violation for an interval containing a pole |
+| **Resources** | Polynomial coefficient and precision limits hold | Keeps the failure that the dependency crate returns when a resource limit is exceeded |
 
 ## Runtime Configuration
 
-The default configuration integrates with the standard library.
+The default configuration uses the standard library.
 
 ```toml
 [dependencies]
 neco-rational = "0.1"
 ```
 
-Environments without the standard library use dynamic allocation alone. Function and failure semantics stay the same.
+Disabling the default `std` feature leaves dynamic memory allocation as the only runtime requirement, so the crate can be used in environments without the standard library. Rational function and failure semantics are the same in both configurations.
 
 ```toml
 [dependencies]
@@ -55,4 +55,4 @@ neco-rational = { version = "0.1", default-features = false }
 
 ## License
 
-MIT License (See the repository [LICENSE](../LICENSE) for details).
+MIT License. See the repository [LICENSE](../LICENSE) for details.

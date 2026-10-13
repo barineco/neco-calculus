@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"rational-interval-001","input":{"denominator":["0","1"],"lower":"-1","numerator":["2"],"precisionBits":8,"upper":"1"},"observation":{"kind":"success","value":{"lower":{"exponent":7,"integer":"255"},"upper":{"exponent":7,"integer":"257"}}},"operation":"rational-interval"}],"schema":"neco.calculus.observation-batch.v1"}

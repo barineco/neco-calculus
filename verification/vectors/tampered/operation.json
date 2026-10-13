@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"rational-001","input":{"denominator":["1"],"numerator":["2"],"point":"2"},"observation":{"kind":"success","value":{"value":"3"}},"operation":"rational-exact"}],"schema":"neco.calculus.observation-batch.v1"}

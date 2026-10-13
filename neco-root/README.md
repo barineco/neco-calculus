@@ -2,25 +2,39 @@
 
 [日本語](README-ja.md)
 
-`neco-root` provides verified root brackets, refinement evidence, multiplicity classification, and local membership analysis for exact polynomials.
+`neco-root` is a crate that provides verified root brackets, root bracket narrowing, multiplicity classification, interval sign classification, and candidate root classification for exact polynomials.
 
 ## Features
 
 **Verified Root Brackets**
 
-A verified sign change or an exact even-multiplicity dyadic root establishes a root bracket. Public results expose observations while retaining private representations.
+A root bracket (an interval verified to contain a root) is established on the basis of either a verified sign change or an even-multiplicity root that is exactly representable as a dyadic rational (a rational whose denominator is a power of two). Public result types hide their internal representation, and their contents are returned through accessors.
 
-**Evidence-Preserving Refinement**
+**Root Bracket Narrowing and Narrowing Witnesses**
 
-Bisection and Newton-bisection create convergence evidence. A derivative enclosure containing zero selects bisection and records the reason and count in the witness.
+Root bracket narrowing shrinks a root bracket by bisection or Newton-bisection and creates a narrowing witness (`ConvergenceWitness`). The narrowing witness holds the method, the convergence status, the iteration counts, and the initial and final intervals. When a derivative enclosure contains zero during Newton-bisection, it switches to bisection and records the reason and count in the narrowing witness.
 
-**Local Membership Analysis**
+**Interval Sign Classification and Candidate Root Classification**
 
-Candidate analysis establishes local roots and multiplicities. Interval evaluation establishes a positive or negative sign when its range excludes zero.
+Both operations take a request (`MembershipJudgmentRequest`) that bundles the polynomial, the interval, the candidate points, the derivative order limit, and the interval evaluation precision. Candidate points are dyadic points that the caller selects from the interval.
 
-**Typed Failure Provenance**
+`classify_region_sign` classifies the sign of the polynomial on the interval and returns the classification result (`RegionSignJudgment`).
 
-Input, polynomial, interval, algebraic, and resource failures retain their distinct payloads through `RootFailure`.
+Its `sign` returns the classified sign as a `RegionSign` value. For a constant polynomial, the classified sign is the sign of its coefficient.
+
+For a polynomial of degree one or more, the classification first finds which candidate points are roots of the polynomial. If an interior candidate point is an odd-multiplicity root, the sign is classified as changing within the interval. If the roots are only endpoint roots or even-multiplicity roots, the polynomial is classified as taking zero within the interval (`RegionSign::ContainsZero`).
+
+When no candidate point is a root, interval evaluation computes the range of the polynomial on the interval. If that range lies entirely on the positive side or entirely on the negative side, the sign is established as positive or negative.
+
+When the range contains zero, the signs of the polynomial values at the two endpoints are compared. If one is positive and the other negative, the sign is classified as changing within the interval. In the remaining cases, including a polynomial value of zero at an endpoint, the sign stays undetermined and the result is `RegionSign::Undetermined`.
+
+`locate_membership_transitions` establishes which candidate points are roots of the polynomial, together with their multiplicities.
+
+It classifies an odd-multiplicity root as a transition (`Transition`), where the sign changes, and an even-multiplicity root as a contact point (`SingularContact`), where the polynomial touches zero and keeps its sign.
+
+**Typed Failures**
+
+`RootFailure` keeps input, polynomial, interval, and algebraic failures, and failures from exceeding resource limits, each with its payload.
 
 ## Specifications and Constraints
 
@@ -28,20 +42,19 @@ Input, polynomial, interval, algebraic, and resource failures retain their disti
 | --- | --- | --- |
 | **Candidate Analysis** | Candidate points $\le 4,096$ | Returns `RootFailure::ResourceLimit` for a larger request |
 | **Multiplicity Analysis** | Derivative order $\le 64$ | Returns `RootFailure::ResourceLimit` for a larger order |
-| **Refinement** | Iterations $\le 19$ | Returns `RootFailure::ResourceLimit` for a larger count |
+| **Root Bracket Narrowing** | Iterations $\le 19$ | Returns `RootFailure::ResourceLimit` for a larger count |
 | **Interval Evaluation** | Precision $\le 256$ bits | Returns `RootFailure::ResourceLimit` for a larger precision |
-| **Classification** | Evidence establishes each public judgment | Produces an explicit undetermined result while evidence remains incomplete |
 
 ## Runtime Configuration
 
-The default configuration integrates with the standard library.
+The default configuration uses the standard library.
 
 ```toml
 [dependencies]
 neco-root = "0.1"
 ```
 
-Environments without the standard library use dynamic allocation alone. Result and failure semantics stay the same.
+Disabling the default `std` feature leaves dynamic memory allocation as the only runtime requirement, so the crate can be used in environments without the standard library. Result and failure semantics are the same in both configurations.
 
 ```toml
 [dependencies]
@@ -53,8 +66,8 @@ neco-root = { version = "0.1", default-features = false }
 * [`neco-polynomial`](https://docs.rs/neco-polynomial): Canonical polynomials, derivatives, and interval evaluation.
 * [`neco-algnum`](https://docs.rs/neco-algnum): Exact algebraic values and enclosures.
 * [`neco-bigint`](https://docs.rs/neco-bigint): Exact dyadic arithmetic.
-* [`neco-formsum`](https://docs.rs/neco-formsum) and [`neco-monomial`](https://docs.rs/neco-monomial): Algebraic evidence forms.
+* [`neco-formsum`](https://docs.rs/neco-formsum) and [`neco-monomial`](https://docs.rs/neco-monomial): Formal sums and monomials used to convert dyadic points to real algebraic numbers.
 
 ## License
 
-MIT License (See the repository [LICENSE](../LICENSE) for details).
+MIT License. See the repository [LICENSE](../LICENSE) for details.

@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"even-touch-001","input":{"candidate":"0","coefficients":["0","0","1"],"maxOrder":2},"observation":{"kind":"success","value":{"multiplicity":3}},"operation":"even-touch"}],"schema":"neco.calculus.observation-batch.v1"}

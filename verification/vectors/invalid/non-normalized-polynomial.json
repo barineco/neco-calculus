@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"polynomial-001","input":{"coefficients":["0","0","1","0"],"point":"2"},"observation":{"kind":"success","value":{"value":"4"}},"operation":"polynomial-exact"}],"schema":"neco.calculus.observation-batch.v1"}

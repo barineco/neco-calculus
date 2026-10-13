@@ -1,0 +1,14 @@
+name = "neco-calculus-verify"
+version = "0.1.0"
+defaultTargets = ["NecoCalculusVerify", "neco-calculus-checker"]
+
+[[require]]
+name = "neco-algebra-verify"
+path = "../../../../neco-algebra/neco-algebra-main/verification/lean"
+
+[[lean_lib]]
+name = "NecoCalculusVerify"
+
+[[lean_exe]]
+name = "neco-calculus-checker"
+root = "NecoCalculusVerifyTests"

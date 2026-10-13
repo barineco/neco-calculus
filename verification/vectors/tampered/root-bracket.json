@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"root-bracket-001","input":{"coefficients":["1","0","1"],"lower":"0","upper":"2"},"observation":{"kind":"success","value":{"evidence":"sign-change"}},"operation":"root-bracket"}],"schema":"neco.calculus.observation-batch.v1"}

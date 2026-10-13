@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "caseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["success", "failure"]
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["caseId", "input", "observation", "operation"],
+      "properties": {
+        "caseId": { "$ref": "#/$defs/caseId" },
+        "input": { "type": "object" },
+        "observation": { "$ref": "#/$defs/observation" },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "polynomial-exact",
+            "polynomial-enclosure",
+            "rational-exact",
+            "rational-interval",
+            "root-bracket",
+            "bisection",
+            "even-touch",
+            "local-region-transition",
+            "surface-exact",
+            "surface-checked"
+          ]
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cases", "schema"],
+  "properties": {
+    "cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/case" }
+    },
+    "schema": {
+      "const": "neco.calculus.observation-batch.v1"
+    }
+  }
+}

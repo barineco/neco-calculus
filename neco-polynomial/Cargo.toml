@@ -17,5 +17,5 @@ default = ["std"]
 std = ["neco-bigint/std", "neco-algnum/std"]
 
 [dependencies]
-neco-bigint = { version = "=0.1.1", default-features = false }
-neco-algnum = { version = "=0.1.1", default-features = false }
+neco-bigint = { path = "../../../neco-algebra/neco-algebra-main/neco-bigint", version = "=0.1.2", default-features = false }
+neco-algnum = { path = "../../../neco-algebra/neco-algebra-main/neco-algnum", version = "=0.1.2", default-features = false }

@@ -1,0 +1,1 @@
+{"cases":[{"caseId":"polynomial-enclosure-001","input":{"coefficients":["0","0","1"],"lower":"2","precisionBits":8,"upper":"2"},"observation":{"kind":"success","value":{"lower":{"exponent":9,"integer":"2041"},"upper":{"exponent":9,"integer":"2047"}}},"operation":"polynomial-enclosure"}],"schema":"neco.calculus.observation-batch.v1"}
